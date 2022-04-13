@@ -1,0 +1,65 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="
+		http://www.springframework.org/schema/beans 
+		http://www.springframework.org/schema/beans/spring-beans-3.2.xsd">
+
+	<!-- stored job-meta in memory -->
+	
+	<bean id="jobRepository"
+		class="org.springframework.batch.core.repository.support.MapJobRepositoryFactoryBean">
+		<property name="transactionManager" ref="transactionManager" />
+	</bean>
+ 	 
+ 	 
+ 	 <!-- stored job-meta in database -->
+	<!-- <bean id="jobRepository"
+		class="org.springframework.batch.core.repository.support.JobRepositoryFactoryBean">
+		<property name="dataSource" ref="dataSource" />
+		<property name="transactionManager" ref="transactionManager" />
+		<property name="databaseType" value="sqlserver" />
+	</bean> -->
+	
+	<bean id="transactionManager"
+		class="org.springframework.batch.support.transaction.ResourcelessTransactionManager" />
+	 
+	<bean id="jobLauncher"
+		class="org.springframework.batch.core.launch.support.SimpleJobLauncher">
+		<property name="jobRepository" ref="jobRepository" />
+	</bean>
+	
+	
+	
+	  <!-- connect to database -->
+   <!-- connect to MySQL database --> 
+   <bean id = "mysqldataSource" 
+      class = "org.springframework.jdbc.datasource.DriverManagerDataSource"> 
+      <property name = "driverClassName" value = "com.mysql.cj.jdbc.Driver" /> 
+      <property name = "url" value = "jdbc:mysql://localhost:3306/nht" /> 
+      <property name = "username" value = "root" /> 
+      <property name = "password" value = "Root@123" /> 
+   </bean> 
+	<!-- 
+	 <bean id="orclDataSource"
+		class="org.springframework.jdbc.datasource.DriverManagerDataSource">
+		<property name="driverClassName" value="${ORCL_DRIVER}" />
+		<property name="url" value="${ORCL_URL}"/>
+		<property name="username" value="${ORCL_USER}"/>
+		<property name="password" value="${ORCL_PASSWORD}"/>
+	</bean>
+	
+	<bean id="db2DataSource"
+		class="org.springframework.jdbc.datasource.DriverManagerDataSource">
+		<property name="driverClassName" value="${DB2_DRIVER}" />
+		<property name="url" value="${DB2_URL}" />
+		<property name="username" value="${DB2_USER}" />
+		<property name="password" value="${DB2_PASSWORD}" />
+	</bean>
+	 -->
+ <bean id="config" class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+		<property name="location">
+			<value>classpath:com/self/resources/config.properties</value>
+		</property>
+</bean> 
+
+</beans>
